@@ -13,8 +13,7 @@ const userProfileSchema = new mongoose.Schema({
     type:String,
     trim:true,
     required:true,
-    unique:true,
-    validate: (value) => value.includes('@'),
+    unique:true
    },
 
    mobileNumber:{
@@ -55,9 +54,12 @@ const userProfileSchema = new mongoose.Schema({
         set:(value) => bcrypt.hashSync(value,10)
     }
 
-   }
+   },
 
 },{timestamps:true})
 
-export const model = mongoose.model('userProfile',userProfileSchema);
+
+const userModel = mongoose.model('userProfile',userProfileSchema);
+
+export default userModel;
 
