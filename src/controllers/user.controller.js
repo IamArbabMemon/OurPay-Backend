@@ -90,7 +90,7 @@ if(!req.body)
         throw new ApiError(404,"User not found");
 
      const isPasswordCorrect = await user.isPasswordCorrect(password);
-    
+        console.log(isPasswordCorrect);
      if(!isPasswordCorrect)
         throw new ApiError(400,"Incorrect credentials");
             
