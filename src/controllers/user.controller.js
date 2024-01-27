@@ -5,6 +5,7 @@ import {ApiResponse} from '../utils/ApiResponse.js'
 import accountModel from '../models/account.model.js';
 import ShortUniqueId from 'short-unique-id';
 import sendMail from '../utils/mailer.js';
+import getAccessToken from '../utils/generateAccessToken.js';
 
 
 const registerUser = async (req,res)=>{
@@ -77,31 +78,35 @@ const registerUser = async (req,res)=>{
 }
 
 
+const userLogin = async (req,res)=>{
+if(!req.body)
+    throw new ApiError(400,'Empty request body');
+
+    const {accountId , password} = req.body;
+
+    const user = await accountModel.findOne({accountId});
+
+    if(!user)
+        throw new ApiError(404,"User not found");
+
+     const isPasswordCorrect = await user.isPasswordCorrect(password);
+    
+     if(!isPasswordCorrect)
+        throw new ApiError(400,"Incorrect credentials");
+            
+        const loggedInUser = {accountId:user.accountId,user:user.user};
+    
+        const accessToken = await getAccessToken(loggedInUser);
+        
+    return res.status(200).cookie("AccessToken",accessToken).json(new ApiResponse(200,loggedInUser,"Access Token has been set and user has logged In"));
+
+}
+
+
+
 export {
-    registerUser
+    registerUser,
+    userLogin
 }
 
 
-/*
-
-1 . data Body {
-username
-email
-mobileNumber
-city
-DOB
-NIC Front Pic
-NIC Back Pic
-password
-secretQuestion
-
-}
-
-2 . send pictures of NIC to the cloudinary by using multer middleware
-
-3 . create another entry in accounts collection where we accountId generated from short-unique-id ,password and current balance will be stored
-note password will be encrypted before saving
-
-4 . send accountId and password to user's given email address
-
-*/
