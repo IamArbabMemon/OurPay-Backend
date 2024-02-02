@@ -12,7 +12,11 @@ app.use(cookieParser());
 
 
 import userRouter from './routes/user.routes.js'
+import accountRouter from './routes/accounts.routes.js';
 
 app.use("/api/v1/user",userRouter);
+
+// secure routes
+app.use("/api/v1/accounts",accountRouter);
 
 export default app;

@@ -2,7 +2,7 @@ import accountModel from '../models/account.model.js';
 import { ApiError } from '../utils/ApiError.js';
 import verifyToken from '../utils/verifyAccessToken.js';
 
-const verifyToken = async (req,res,next)=>{
+const verifyAccessToken = async (req,res,next)=>{
    try{
     const token = req.cookies.AccessToken;
 
@@ -25,4 +25,6 @@ const verifyToken = async (req,res,next)=>{
 }
     
     
-}
+};
+
+export default verifyAccessToken;

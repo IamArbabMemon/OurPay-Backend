@@ -19,7 +19,14 @@ const accountSchema = new mongoose.Schema({
         validate: (value) => value.length===6,
         unique:true,
         trim:true
-    }
+    },
+
+    currentBalance:{
+        type:Decimal128,
+        default:0.0
+    },
+
+    transactions:[{type:mongoose.Schema.Types.ObjectId,ref:'transactions'}]
     
 
 },{timestamps:true});

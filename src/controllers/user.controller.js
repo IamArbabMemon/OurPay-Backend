@@ -98,7 +98,9 @@ if(!req.body)
     
         const accessToken = await getAccessToken(loggedInUser);
         
-    return res.status(200).cookie("AccessToken",accessToken).json(new ApiResponse(200,loggedInUser,"Access Token has been set and user has logged In"));
+    return res.status(200)
+    .cookie("AccessToken",accessToken)
+    .json(new ApiResponse(200,loggedInUser,"Access Token has been set and user has logged In"));
 
 }
 
